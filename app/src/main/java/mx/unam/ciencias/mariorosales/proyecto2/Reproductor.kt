@@ -7,6 +7,7 @@ class Reproductor {
 
     fun play(archivo: String){
         player.setDataSource(archivo)
+        player.prepare()
         player.start()
     }
 

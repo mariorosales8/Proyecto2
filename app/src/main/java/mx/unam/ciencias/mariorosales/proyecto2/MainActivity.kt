@@ -25,13 +25,14 @@ class MainActivity : AppCompatActivity() {
 
 
         val reproductor: Reproductor = Reproductor()
-        reproductor.play("storage/emulated/0/Music/Samsung/Over_the_Horizon.mp3")
+        try {
+            reproductor.play("storage/emulated/0/Music/Samsung/Over_the_Horizon.mp3")
+        }catch(e: Exception){
+            Toast.makeText(this, "Error al acceder al archivo", Toast.LENGTH_SHORT).show()
+        }
 
 
         val minero: Minero = Minero()
-        Toast.makeText(this, "Álbum: "+minero.getAlbum("storage/emulated/0/Music/Samsung/Over_the_Horizon.mp3"), Toast.LENGTH_LONG).show()
-        Toast.makeText(this, "Artista: "+minero.getArtista("storage/emulated/0/Music/Samsung/Over_the_Horizon.mp3"), Toast.LENGTH_LONG).show()
-        Toast.makeText(this, "Género: "+minero.getGenero("storage/emulated/0/Music/Samsung/Over_the_Horizon.mp3"), Toast.LENGTH_LONG).show()
     }
 
 }
