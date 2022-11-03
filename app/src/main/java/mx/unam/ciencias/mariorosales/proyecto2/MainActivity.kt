@@ -1,14 +1,11 @@
 package mx.unam.ciencias.mariorosales.proyecto2
 
 import android.Manifest
-import android.media.MediaMetadataRetriever
-import android.media.MediaPlayer
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
-import java.io.File
+import java.io.IOException
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,15 +21,19 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        val reproductor: Reproductor = Reproductor()
-        try {
-            reproductor.play("storage/emulated/0/Music/Samsung/Over_the_Horizon.mp3")
-        }catch(e: Exception){
-            Toast.makeText(this, "Error al acceder al archivo", Toast.LENGTH_SHORT).show()
-        }
+
 
 
         val minero: Minero = Minero()
+        val canciones = minero.mina("storage/emulated/0/Download")
+        if(canciones == null){
+            Toast.makeText(this, "No se encontró la carpeta", Toast.LENGTH_SHORT).show()
+        }else {
+            Toast.makeText(this, canciones.size.toString(), Toast.LENGTH_SHORT).show()
+            for (cancion in canciones) {
+                Toast.makeText(this, cancion.titulo, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
 }
