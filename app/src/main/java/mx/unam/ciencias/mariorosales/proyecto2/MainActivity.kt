@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     fun minar(v: View){
         val player = Reproductor()
         val entrada: TextView = findViewById(R.id.entrada)
+        val salida: TextView = findViewById(R.id.salida)
 
         val minero: Minero = Minero()
         val canciones = minero.mina(entrada.text.toString())
@@ -36,9 +37,10 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "No se encontró la carpeta", Toast.LENGTH_SHORT).show()
         }else {
             Toast.makeText(this, canciones.size.toString(), Toast.LENGTH_SHORT).show()
+            salida.setText("")
             for (cancion in canciones) {
                 player.play(cancion.ruta)
-                Toast.makeText(this, cancion.titulo, Toast.LENGTH_SHORT).show()
+                salida.append(cancion.titulo + "\n")
             }
         }
     }

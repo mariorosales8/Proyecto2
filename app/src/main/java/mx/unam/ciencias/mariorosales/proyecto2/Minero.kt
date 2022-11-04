@@ -25,6 +25,14 @@ class Minero {
         lectorEtiquetas.setDataSource(archivo)
         return lectorEtiquetas.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE).toString()
     }
+    fun leeFecha(archivo: String): String{
+        lectorEtiquetas.setDataSource(archivo)
+        return lectorEtiquetas.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DATE).toString()
+    }
+    fun leeTrack(archivo: String): String{
+        lectorEtiquetas.setDataSource(archivo)
+        return lectorEtiquetas.extractMetadata(MediaMetadataRetriever.METADATA_KEY_CD_TRACK_NUMBER).toString()
+    }
 
 
     fun mina(carpeta: String): MutableList<Cancion>?{

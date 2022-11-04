@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Reproductor de Música</string>
-    <string name="rutaPredeterminada">storage/emulated/0/Download/[Phone]GalaxyJ6_20220207_1/Musc</string>
+    <string name="rutaPredeterminada">storage/emulated/0/Music</string>
 </resources>
