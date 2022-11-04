@@ -4,11 +4,13 @@ import android.Manifest
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
+import android.view.View
+import android.widget.TextView
 import android.widget.Toast
-import java.io.IOException
 
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -21,11 +23,15 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        val player = Reproductor()
 
+    }
+
+    fun minar(v: View){
+        val player = Reproductor()
+        val entrada: TextView = findViewById(R.id.entrada)
 
         val minero: Minero = Minero()
-        val canciones = minero.mina("storage/emulated/0/Download/[Phone]GalaxyJ6_20220207_1/Musc")
+        val canciones = minero.mina(entrada.text.toString())
         if(canciones == null){
             Toast.makeText(this, "No se encontró la carpeta", Toast.LENGTH_SHORT).show()
         }else {
