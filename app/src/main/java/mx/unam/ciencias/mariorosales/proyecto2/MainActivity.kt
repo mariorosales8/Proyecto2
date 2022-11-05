@@ -4,6 +4,7 @@ import android.Manifest
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -39,8 +40,13 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, canciones.size.toString(), Toast.LENGTH_SHORT).show()
             salida.setText("")
             for (cancion in canciones) {
-                player.play(cancion.ruta)
-                salida.append(cancion.titulo + "\n")
+                player.play(cancion.getRuta())
+                salida.append(cancion.getTitulo() + ", ")
+                salida.append(cancion.getAlbum() + ", ")
+                salida.append(cancion.getArtista() + ", ")
+                salida.append(cancion.getGenero() + ", ")
+                salida.append(cancion.getFecha() + ", ")
+                salida.append(cancion.getPista().toString() + "\n")
             }
         }
     }

@@ -3,33 +3,34 @@ package mx.unam.ciencias.mariorosales.proyecto2
 import android.media.MediaMetadataRetriever
 import java.io.File
 import android.media.MediaPlayer
+import android.util.Log
 import android.widget.Toast
 import java.io.IOException
 
 class Minero {
     val lectorEtiquetas = MediaMetadataRetriever()
 
-    fun leeAlbum(archivo: String): String{
+    private fun leeAlbum(archivo: String): String{
         lectorEtiquetas.setDataSource(archivo)
         return lectorEtiquetas.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ALBUM).toString()
     }
-    fun leeArtista(archivo: String): String{
+    private fun leeArtista(archivo: String): String{
         lectorEtiquetas.setDataSource(archivo)
         return lectorEtiquetas.extractMetadata(MediaMetadataRetriever.METADATA_KEY_ARTIST).toString()
     }
-    fun leeGenero(archivo: String): String{
+    private fun leeGenero(archivo: String): String{
         lectorEtiquetas.setDataSource(archivo)
         return lectorEtiquetas.extractMetadata(MediaMetadataRetriever.METADATA_KEY_GENRE).toString()
     }
-    fun leeTitulo(archivo: String): String{
+    private fun leeTitulo(archivo: String): String{
         lectorEtiquetas.setDataSource(archivo)
         return lectorEtiquetas.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE).toString()
     }
-    fun leeFecha(archivo: String): String{
+    private fun leeFecha(archivo: String): String{
         lectorEtiquetas.setDataSource(archivo)
         return lectorEtiquetas.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DATE).toString()
     }
-    fun leeTrack(archivo: String): String{
+    private fun leePista(archivo: String): String{
         lectorEtiquetas.setDataSource(archivo)
         return lectorEtiquetas.extractMetadata(MediaMetadataRetriever.METADATA_KEY_CD_TRACK_NUMBER).toString()
     }
@@ -45,10 +46,23 @@ class Minero {
             val player = MediaPlayer()
             try {
                 player.setDataSource(archivo.absolutePath)
-                canciones.add(Cancion(archivo.absolutePath, leeTitulo(archivo.absolutePath)))
+                var cancion = Cancion(archivo.absolutePath)
+                llena(cancion)
+                canciones.add(cancion)
             }catch (e: Exception){}
         }
         return canciones
+    }
+
+    private fun llena(cancion: Cancion) {
+        val ruta = cancion.getRuta()
+        cancion.setTitulo(leeTitulo(ruta))
+        cancion.setAlbum(leeAlbum(ruta))
+        cancion.setArtista(leeArtista(ruta))
+        cancion.setGenero(leeGenero(ruta))
+        cancion.setFecha(leeFecha(ruta))
+        cancion.setPista(leePista(ruta))
+
     }
 
 }
