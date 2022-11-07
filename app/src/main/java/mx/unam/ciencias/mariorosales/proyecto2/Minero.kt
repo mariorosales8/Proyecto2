@@ -61,6 +61,7 @@ class Minero {
         cancion.setArtista(leeArtista(ruta))
         cancion.setGenero(leeGenero(ruta))
         cancion.setFecha(leeFecha(ruta))
+        val prue = leePista(ruta)
         cancion.setPista(leePista(ruta))
 
     }

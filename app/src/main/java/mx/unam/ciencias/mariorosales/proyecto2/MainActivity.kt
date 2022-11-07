@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import mx.unam.ciencias.mariorosales.proyecto2.db.DbHelper
 
 
 class MainActivity : AppCompatActivity() {
@@ -16,15 +17,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+        ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
 
-        }
-        else{
-            ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
-        }
-
-
-
+        val dbHelper = DbHelper(this)
+        val db = dbHelper.writableDatabase
     }
 
     fun minar(v: View){
@@ -46,7 +42,7 @@ class MainActivity : AppCompatActivity() {
                 salida.append(cancion.getArtista() + ", ")
                 salida.append(cancion.getGenero() + ", ")
                 salida.append(cancion.getFecha() + ", ")
-                salida.append(cancion.getPista().toString() + "\n")
+                salida.append(cancion.getPista() + "\n")
             }
         }
     }

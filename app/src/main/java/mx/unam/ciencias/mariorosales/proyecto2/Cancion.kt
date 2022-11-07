@@ -6,7 +6,7 @@ class Cancion(private val ruta: String = "") {
     private var artista: String = ""
     private var genero: String = ""
     private var fecha: String = ""
-    private var pista: Int = 0
+    private var pista: String = ""
 
     fun getRuta(): String {
         return ruta
@@ -56,14 +56,14 @@ class Cancion(private val ruta: String = "") {
         else
             this.fecha = fecha
     }
-    fun getPista(): Int {
+    fun getPista(): String {
         return pista
     }
     fun setPista(pista: String) {
         if(pista == "null")
-            this.pista = 0
+            this.pista = "Unknown"
         else
-            this.pista = pista.toInt()
+            this.pista = pista
     }
 
 }
