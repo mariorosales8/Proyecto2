@@ -18,7 +18,7 @@ class DbHelper(private val context: Context): SQLiteOpenHelper(context, "cancion
         db.execSQL("CREATE TABLE performers (\n" +
                 "id_performer INTEGER PRIMARY KEY ,\n" +
                 "id_type INTEGER ,\n" +
-                "name TEXT ,\n" +
+                "name_performer TEXT ,\n" +
                 "FOREIGN KEY ( id_type ) REFERENCES types ( id_type )\n" +
                 ");")
 
@@ -40,7 +40,7 @@ class DbHelper(private val context: Context): SQLiteOpenHelper(context, "cancion
         db.execSQL("CREATE TABLE albums (\n" +
                 "id_album INTEGER PRIMARY KEY ,\n" +
                 "path TEXT ,\n" +
-                "name TEXT ,\n" +
+                "name_album TEXT ,\n" +
                 "year INTEGER\n" +
                 ");")
 

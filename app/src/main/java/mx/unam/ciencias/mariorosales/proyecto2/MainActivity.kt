@@ -4,11 +4,9 @@ import android.Manifest
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.appcompat.app.AppCompatActivity
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import mx.unam.ciencias.mariorosales.proyecto2.db.DbHelper
 
 
 class MainActivity : AppCompatActivity() {
@@ -20,29 +18,29 @@ class MainActivity : AppCompatActivity() {
         ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
     }
 
-    fun minar(v: View){
-        val player = Reproductor()
-        val entrada: TextView = findViewById(R.id.entrada)
-        val salida: TextView = findViewById(R.id.salida)
-
+    fun minar(v: View) {
+        val carpeta: TextView = findViewById(R.id.carpeta)
         val minero: Minero = Minero(this)
-        val canciones = minero.mina(entrada.text.toString())
-        if(canciones == null){
+        val minados = minero.mina(carpeta.text.toString())
+        if(minados > -1) {
+            Toast.makeText(this, "Se agregaron $minados canciones", Toast.LENGTH_SHORT).show()
+        }else{
             Toast.makeText(this, "No se encontró la carpeta", Toast.LENGTH_SHORT).show()
-        }else {
-            Toast.makeText(this, canciones.size.toString(), Toast.LENGTH_SHORT).show()
-            salida.setText("")
-            for (cancion in canciones) {
-                player.play(cancion.getRuta())
-                salida.append(cancion.getTitulo() + ", ")
-                salida.append(cancion.getAlbum() + ", ")
-                salida.append(cancion.getArtista() + ", ")
-                salida.append(cancion.getGenero() + ", ")
-                salida.append(cancion.getFecha() + ", ")
-                salida.append(cancion.getPista() + "\n")
-            }
         }
-        minero.cerrar()
+    }
+
+    fun buscar(v: View) {
+        val busqueda: TextView = findViewById((R.id.busqueda))
+        val salida: TextView = findViewById(R.id.salida)
+        val buscador = Buscador(this)
+        val canciones = buscador.busca(busqueda.text.toString())
+        salida.text = ""
+        if (canciones.count() == 0){
+            Toast.makeText(this, "No se encontró ningun resultado", Toast.LENGTH_SHORT).show()
+        }
+        for(cancion in canciones){
+            salida.append(cancion.toString() + "\n\n")
+        }
     }
 
 }

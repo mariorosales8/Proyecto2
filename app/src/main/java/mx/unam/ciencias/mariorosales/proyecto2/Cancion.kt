@@ -5,8 +5,8 @@ class Cancion(private val ruta: String = "") {
     private var album: String = ""
     private var artista: String = ""
     private var genero: String = ""
-    private var fecha: String = ""
-    private var pista: String = ""
+    private var fecha: Int = 0
+    private var pista: Int = 0
 
     fun getRuta(): String {
         return ruta
@@ -15,55 +15,41 @@ class Cancion(private val ruta: String = "") {
         return titulo
     }
     fun setTitulo(titulo: String) {
-        if(titulo == "null")
-            this.titulo = "Unknown"
-        else
-            this.titulo = titulo
+        this.titulo = titulo
     }
     fun getAlbum(): String {
         return album
     }
     fun setAlbum(album: String) {
-        if(album == "null")
-            this.album = "Unknown"
-        else
-            this.album = album
+        this.album = album
     }
     fun getArtista(): String {
         return artista
     }
     fun setArtista(artista: String) {
-        if(artista == "null")
-            this.artista = "Unknown"
-        else
-            this.artista = artista
+        this.artista = artista
     }
     fun getGenero(): String {
         return genero
     }
     fun setGenero(genero: String) {
-        if(genero == "null")
-            this.genero = "Unknown"
-        else
-            this.genero = genero
+        this.genero = genero
     }
-    fun getFecha(): String {
+    fun getFecha(): Int {
         return fecha
     }
-    fun setFecha(fecha: String) {
-        if(fecha == "null")
-            this.fecha = "Unknown"
-        else
-            this.fecha = fecha
+    fun setFecha(fecha: Int) {
+        this.fecha = fecha
     }
-    fun getPista(): String {
+    fun getPista(): Int {
         return pista
     }
-    fun setPista(pista: String) {
-        if(pista == "null")
-            this.pista = "Unknown"
-        else
-            this.pista = pista
+    fun setPista(pista: Int) {
+        this.pista = pista
+    }
+
+    override fun toString(): String {
+        return "Título: $titulo\nAlbum: $album\nArtista: $artista\nGénero: '$genero'\nFecha: $fecha\nPista: $pista"
     }
 
 }

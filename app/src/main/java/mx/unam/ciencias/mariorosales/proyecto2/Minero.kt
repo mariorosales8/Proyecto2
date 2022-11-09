@@ -64,30 +64,24 @@ class Minero(contexto: Context) {
     }
 
 
-    fun mina(carpeta: String): MutableList<Cancion>?{
-        val archivos = File(carpeta).listFiles()
+    fun mina(carpeta: String): Int{
+        val archivos = File(carpeta).walk()
+        var salida: Int = 0
 
-        if(archivos == null)
-            return null
-        val canciones = mutableListOf<Cancion>()
+        if(archivos.count() == 0)
+            return -1
         for(archivo in archivos){
-            val player = MediaPlayer()
+                val player = MediaPlayer()
             try {
                 lectorEtiquetas.setDataSource(archivo.absolutePath)
-                lectorEtiquetas.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE)
-                player.setDataSource(archivo.absolutePath)
-                val cancion = Cancion(archivo.absolutePath)
-                registra(archivo.absolutePath)
-                llena(cancion)
-                canciones.add(cancion)
-            }catch (e: Exception){
-                true
-            }
+                if(registra(archivo.absolutePath))
+                    salida++
+            }catch (e: Exception){}
         }
-        return canciones
+        return salida
     }
 
-    private fun registra(ruta: String) {
+    private fun registra(ruta: String): Boolean {
         val nuevoRegistro = ContentValues()
         var repetido = canciones.rawQuery("SELECT path FROM rolas WHERE path=\"$ruta\"", null)
         if(!repetido.moveToFirst()) {
@@ -101,14 +95,14 @@ class Minero(contexto: Context) {
 
             //Registra en performers
             nuevoRegistro.clear()
-            repetido = canciones.rawQuery("SELECT name FROM performers WHERE name=\""+leeArtista(ruta)+"\"", null)
+            repetido = canciones.rawQuery("SELECT name_performer FROM performers WHERE name_performer=\""+leeArtista(ruta)+"\"", null)
             if(!repetido.moveToFirst()) {
-                nuevoRegistro.put("name", leeArtista(ruta))
+                nuevoRegistro.put("name_performer", leeArtista(ruta))
                 canciones.insertOrThrow("performers", null, nuevoRegistro)
                 nuevoRegistro.clear()
                 repetido.close()
             }
-            val artista = canciones.rawQuery("SELECT id_performer FROM performers WHERE name=\""+leeArtista(ruta)+"\"", null)
+            val artista = canciones.rawQuery("SELECT id_performer FROM performers WHERE name_performer=\""+leeArtista(ruta)+"\"", null)
             artista.moveToFirst()
             nuevoRegistro.put("id_performer", artista.getInt(artista.getColumnIndexOrThrow("id_performer")))
             canciones.update("rolas", nuevoRegistro, "path=\"$ruta\"", null)
@@ -116,38 +110,23 @@ class Minero(contexto: Context) {
 
             //Registra en albums
             nuevoRegistro.clear()
-            repetido = canciones.rawQuery("SELECT name FROM albums WHERE name=\""+leeAlbum(ruta)+"\"", null)
+            repetido = canciones.rawQuery("SELECT name_album FROM albums WHERE name_album=\""+leeAlbum(ruta)+"\"", null)
             if(!repetido.moveToFirst()) {
-                nuevoRegistro.put("name", leeAlbum(ruta))
+                nuevoRegistro.put("name_album", leeAlbum(ruta))
                 nuevoRegistro.put("path", ruta.reversed().substringAfter('/').reversed())
                 canciones.insertOrThrow("albums", null, nuevoRegistro)
                 nuevoRegistro.clear()
                 repetido.close()
             }
-            val album = canciones.rawQuery("SELECT id_album FROM albums WHERE name=\""+leeAlbum(ruta)+"\"", null)
+            val album = canciones.rawQuery("SELECT id_album FROM albums WHERE name_album=\""+leeAlbum(ruta)+"\"", null)
             album.moveToFirst()
             nuevoRegistro.put("id_album", album.getInt(album.getColumnIndexOrThrow("id_album")))
             canciones.update("rolas", nuevoRegistro, "path=\"$ruta\"", null)
             album.close()
+
+            return true
         }
-    }
-
-
-
-
-    private fun llena(cancion: Cancion) {
-        val ruta = cancion.getRuta()
-        cancion.setTitulo(leeTitulo(ruta))
-        cancion.setAlbum(leeAlbum(ruta))
-        cancion.setArtista(leeArtista(ruta))
-        cancion.setGenero(leeGenero(ruta))
-        cancion.setFecha(leeFecha(ruta).toString())
-        cancion.setPista(leePista(ruta).toString())
-
-    }
-
-    fun cerrar() {
-        canciones.close()
+        return false
     }
 
 }
