@@ -2,8 +2,8 @@ package mx.unam.ciencias.mariorosales.proyecto2
 
 import android.Manifest
 import android.os.Bundle
-import android.support.v4.app.ActivityCompat
-import android.support.v7.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -18,9 +18,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
-
-        val dbHelper = DbHelper(this)
-        val db = dbHelper.writableDatabase
     }
 
     fun minar(v: View){
@@ -28,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         val entrada: TextView = findViewById(R.id.entrada)
         val salida: TextView = findViewById(R.id.salida)
 
-        val minero: Minero = Minero()
+        val minero: Minero = Minero(this)
         val canciones = minero.mina(entrada.text.toString())
         if(canciones == null){
             Toast.makeText(this, "No se encontró la carpeta", Toast.LENGTH_SHORT).show()
@@ -45,6 +42,7 @@ class MainActivity : AppCompatActivity() {
                 salida.append(cancion.getPista() + "\n")
             }
         }
+        minero.cerrar()
     }
 
 }
