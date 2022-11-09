@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         for(cancion in canciones){
             salida.append(cancion.toString() + "\n\n")
         }
+        salida.append("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
     }
 
 }

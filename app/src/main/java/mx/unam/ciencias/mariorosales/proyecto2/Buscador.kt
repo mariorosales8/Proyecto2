@@ -49,8 +49,9 @@ class Buscador (contexto: Context){
             busquedas += " AND rolas.track=\"$pista\""
         }
         if(busquedas == "")
-            return lista
-        busquedas = busquedas.substring(5)
+            busquedas = "true"
+        else
+            busquedas = busquedas.substring(5)
 
         val resultados = db.rawQuery("SELECT rolas.path, rolas.title, performers.name_performer, albums.name_album, " +
                 "rolas.year, rolas.genre, rolas.track FROM rolas JOIN performers ON rolas.id_performer = " +
