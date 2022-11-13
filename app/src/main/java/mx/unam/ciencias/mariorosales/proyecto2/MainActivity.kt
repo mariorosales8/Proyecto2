@@ -1,15 +1,16 @@
 package mx.unam.ciencias.mariorosales.proyecto2
 
 import android.Manifest
+import android.content.Intent
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 
+val player = Reproductor()
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     fun minar(v: View) {
         val carpeta: TextView = findViewById(R.id.carpeta)
-        val minero: Minero = Minero(this)
+        val minero = Minero(this)
         val minados = minero.mina(carpeta.text.toString())
         if(minados > -1) {
             Toast.makeText(this, "Se agregaron $minados canciones", Toast.LENGTH_SHORT).show()
@@ -30,18 +31,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun buscar(v: View) {
+        val salida: ListView = findViewById(R.id.lista)
         val busqueda: TextView = findViewById((R.id.busqueda))
-        val salida: TextView = findViewById(R.id.salida)
         val buscador = Buscador(this)
         val canciones = buscador.busca(busqueda.text.toString())
-        salida.text = ""
         if (canciones.count() == 0){
             Toast.makeText(this, "No se encontró ningun resultado", Toast.LENGTH_SHORT).show()
+        }else {
+            val adaptador = ArrayAdapter<Cancion>(this, android.R.layout.simple_list_item_1, canciones)
+            salida.adapter = adaptador
+            salida.onItemClickListener = this
         }
-        for(cancion in canciones){
-            salida.append(cancion.toString() + "\n\n")
-        }
-        salida.append("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
     }
+
+    override fun onItemClick(adaptador: AdapterView<*>?, view: View?, i: Int, l: Long) {
+        val player = Reproductor()
+        val intent = Intent(this, PlayerActivity::class.java)
+        intent.putExtra("cancion", adaptador?.adapter?.getItem(i) as Cancion)
+        startActivity(intent)
+    }
+
 
 }

@@ -3,16 +3,12 @@ package mx.unam.ciencias.mariorosales.proyecto2
 import android.media.MediaPlayer
 import android.util.Log
 
-class Reproductor(archivo: String) {
+class Reproductor(): java.io.Serializable {
     val player = MediaPlayer()
 
     init {
-        player.setDataSource(archivo)
-        player.prepare()
         player.setOnCompletionListener {
-            cambiarCancion("storage/emulated/0/Music/Over_the_Horizon.mp3")
-            Log.d("Aquiiiiiiiiiiiiiiiiiiiiiiiiik\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",getPosicion().toString())
-
+            setPosicion(0)
         }
     }
 
@@ -32,7 +28,7 @@ class Reproductor(archivo: String) {
         player.seekTo(0)
     }
 
-    fun cambiarCancion(ruta: String){
+    fun setCancion(ruta: String){
         player.reset()
         player.setDataSource(ruta)
         player.prepare()
@@ -43,6 +39,10 @@ class Reproductor(archivo: String) {
     }
     fun setPosicion(milisegundos: Int){
         player.seekTo(milisegundos)
+    }
+
+    fun getDuracion(): Int {
+        return player.duration
     }
 
 }

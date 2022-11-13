@@ -1,6 +1,6 @@
 package mx.unam.ciencias.mariorosales.proyecto2
 
-class Cancion(private val ruta: String = "") {
+class Cancion(private val ruta: String = ""): java.io.Serializable {
     private var titulo: String = ""
     private var album: String = ""
     private var artista: String = ""
