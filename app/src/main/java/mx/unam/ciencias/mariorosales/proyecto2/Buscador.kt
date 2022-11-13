@@ -24,26 +24,35 @@ class Buscador (contexto: Context){
                 "titulo" -> titulo = texto.substringBefore(',')
                 "artista" -> artista = texto.substringBefore(',')
                 "album" -> album = texto.substringBefore(',')
-                "fecha" -> fecha = texto.substringBefore(',').toInt()
+                "fecha" ->
+                    if(texto.substringBefore(',').toIntOrNull() != null)
+                        fecha = texto.substringBefore(',').toInt()
+                    else
+                        fecha = -1
                 "genero" -> genero = texto.substringBefore(',')
-                "pista" -> pista = texto.substringBefore(',').toInt()
+                "pista" ->
+                    if(texto.substringBefore(',').toIntOrNull() != null)
+                        pista = texto.substringBefore(',').toInt()
+                    else
+                        pista = -1
             }
+            texto = texto.substringAfter(',',"")
         }
         var busquedas = ""
         if(titulo != "") {
-            busquedas += " AND rolas.title=\"$titulo\""
+            busquedas += " AND rolas.title LIKE \"%$titulo%\""
         }
         if(artista != "") {
-            busquedas += " AND performers.name_performer=\"$artista\""
+            busquedas += " AND performers.name_performer LIKE \"%$artista%\""
         }
         if(album != "") {
-            busquedas += " AND albums.name_album=\"$album\""
+            busquedas += " AND albums.name_album LIKE \"%$album%\""
         }
         if(fecha != 0) {
             busquedas += " AND rolas.year=\"$fecha\""
         }
         if(genero != "") {
-            busquedas += " AND rolas.genre=\"$genero\""
+            busquedas += " AND rolas.genre LIKE \"%$genero%\""
         }
         if(pista != 0) {
             busquedas += " AND rolas.track=\"$pista\""
