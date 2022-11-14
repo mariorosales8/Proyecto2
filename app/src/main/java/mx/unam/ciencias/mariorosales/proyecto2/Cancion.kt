@@ -7,6 +7,7 @@ class Cancion(private val ruta: String = ""): java.io.Serializable {
     private var genero: String = ""
     private var fecha: Int = 0
     private var pista: Int = 0
+    private var id: Int = 0
 
     fun getRuta(): String {
         return ruta
@@ -47,9 +48,15 @@ class Cancion(private val ruta: String = ""): java.io.Serializable {
     fun setPista(pista: Int) {
         this.pista = pista
     }
+    fun getId(): Int{
+        return id
+    }
+    fun setId(id: Int){
+        this.id = id
+    }
 
     override fun toString(): String {
-        return "Título: $titulo\nAlbum: $album\nArtista: $artista\nGénero: '$genero'\nFecha: $fecha\nPista: $pista"
+        return "$titulo - $artista\n$album ($fecha)\n$genero. #$pista"
     }
 
 }

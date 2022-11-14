@@ -1,7 +1,6 @@
 package mx.unam.ciencias.mariorosales.proyecto2
 
 import android.media.MediaPlayer
-import android.util.Log
 
 class Reproductor(): java.io.Serializable {
     val player = MediaPlayer()

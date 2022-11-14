@@ -1,6 +1,8 @@
 package mx.unam.ciencias.mariorosales.proyecto2
 
 import android.Manifest
+import android.app.Application
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
@@ -9,6 +11,7 @@ import android.view.View
 import android.widget.*
 
 val player = Reproductor()
+var main: Context? = null
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
 
@@ -17,6 +20,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
         setContentView(R.layout.activity_main)
 
         ActivityCompat.requestPermissions(this@MainActivity, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1)
+        main = this
     }
 
     fun minar(v: View) {
@@ -45,11 +49,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     }
 
     override fun onItemClick(adaptador: AdapterView<*>?, view: View?, i: Int, l: Long) {
-        val player = Reproductor()
         val intent = Intent(this, PlayerActivity::class.java)
         intent.putExtra("cancion", adaptador?.adapter?.getItem(i) as Cancion)
         startActivity(intent)
     }
-
-
 }

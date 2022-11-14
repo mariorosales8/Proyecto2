@@ -2,15 +2,10 @@ package mx.unam.ciencias.mariorosales.proyecto2
 
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.media.MediaMetadataRetriever
 import java.io.File
 import android.media.MediaPlayer
-import android.os.Build
-import androidx.annotation.RequiresApi
-import android.util.Log.d
 import mx.unam.ciencias.mariorosales.proyecto2.db.DbHelper
-import android.util.Log
 import java.time.Year
 
 class Minero(contexto: Context) {

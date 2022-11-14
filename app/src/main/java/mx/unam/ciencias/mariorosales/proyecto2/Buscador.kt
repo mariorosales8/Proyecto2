@@ -62,11 +62,12 @@ class Buscador (contexto: Context){
         else
             busquedas = busquedas.substring(5)
 
-        val resultados = db.rawQuery("SELECT rolas.path, rolas.title, performers.name_performer, albums.name_album, " +
+        val resultados = db.rawQuery("SELECT rolas.id_rola, rolas.path, rolas.title, performers.name_performer, albums.name_album, " +
                 "rolas.year, rolas.genre, rolas.track FROM rolas JOIN performers ON rolas.id_performer = " +
                 "performers.id_performer JOIN albums ON rolas.id_album = albums.id_album WHERE " + busquedas, null)
         while(resultados.moveToNext()) {
             val cancion = Cancion(resultados.getString(resultados.getColumnIndexOrThrow("rolas.path")))
+            cancion.setId(resultados.getInt(resultados.getColumnIndexOrThrow("rolas.id_rola")))
             cancion.setTitulo(resultados.getString(resultados.getColumnIndexOrThrow("rolas.title")))
             cancion.setArtista(resultados.getString(resultados.getColumnIndexOrThrow("performers.name_performer")))
             cancion.setAlbum(resultados.getString(resultados.getColumnIndexOrThrow("albums.name_album")))
@@ -75,7 +76,6 @@ class Buscador (contexto: Context){
             cancion.setPista(resultados.getInt(resultados.getColumnIndexOrThrow("rolas.track")))
             lista.add(cancion)
         }
-        resultados.close()
         return lista
     }
 }
